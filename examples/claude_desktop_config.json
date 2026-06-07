@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "template": {
+      "command": "python",
+      "args": ["-m", "src.server"],
+      "cwd": "C:\\ruta\\a\\mcp-server-template",
+      "env": {
+        "MCP_SERVER_NAME": "mcp-server-template",
+        "MCP_SERVER_VERSION": "0.1.0"
+      }
+    }
+  }
+}
+
