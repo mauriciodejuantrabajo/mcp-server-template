@@ -1,17 +1,19 @@
+> **Idioma / Language:** **English** · [Español](README.es.md)
+
 # mcp-server-template
 
-Plantilla minima para crear servidores **MCP (Model Context Protocol)** en Python
-con el SDK oficial y `FastMCP`.
+Minimal template to build **MCP (Model Context Protocol)** servers in Python
+using the official SDK and `FastMCP`.
 
-La idea es que puedas copiar este repo, cambiar el nombre del servidor, reemplazar
-las tools de ejemplo por tools reales y tener tests de integracion MCP desde el
-primer commit.
+The idea is that you can copy this repo, change the server name, replace the
+example tools with real ones, and have MCP integration tests from the very first
+commit.
 
-## Interfaz guiada
+## Guided interface
 
-### App visual
+### Visual app
 
-Tambien incluye una interfaz grafica local para trabajar con la plantilla:
+It also includes a local graphical interface to work with the template:
 
 ```bash
 # Terminal 1: backend
@@ -23,117 +25,116 @@ npm install
 npm run dev
 ```
 
-Abre `http://127.0.0.1:5173`. Desde ahi puedes configurar nombre, descripcion,
-carpeta destino y puerto, ver preview de archivos/comandos, generar un proyecto y
-probar las tools de ejemplo.
+Open `http://127.0.0.1:5173`. From there you can configure the name, description,
+target folder and port, preview files/commands, generate a project, and test the
+example tools.
 
-#### La UI aparece `offline` / "No se pudo conectar con el backend"
+#### The UI shows `offline` / "No se pudo conectar con el backend"
 
-Ese mensaje significa que el `fetch` del navegador hacia el backend fallo. Casi
-siempre el backend esta bien y la causa es del lado del navegador. Para
-diagnosticarlo:
+That message means the browser's `fetch` to the backend failed. Almost always
+the backend is fine and the cause is on the browser side. To diagnose it:
 
-1. Verifica que el backend este corriendo y responda. En otra terminal:
+1. Make sure the backend is running and responds. In another terminal:
 
    ```bash
    curl http://127.0.0.1:8100/api/health
    ```
 
-   Debe devolver `{"status":"ok","service":"mcp-template-builder"}`. Si no
-   responde, arranca el backend (Terminal 1 de arriba).
+   It should return `{"status":"ok","service":"mcp-template-builder"}`. If it
+   doesn't respond, start the backend (Terminal 1 above).
 
-2. Abre `http://127.0.0.1:8100/api/health` directamente en una pestana nueva del
-   navegador:
-   - **Si ves el JSON** → el navegador llega al backend; el bloqueo viene de una
-     extension (adblock/privacy) o de cache. Abre la app en una ventana de
-     incognito (`Ctrl+Shift+N`); si ahi conecta, era una extension. Tambien
-     ayuda una recarga forzada con `Ctrl+Shift+R`.
-   - **Si no carga** → es firewall o red local; el navegador no alcanza el 8100.
+2. Open `http://127.0.0.1:8100/api/health` directly in a new browser tab:
+   - **If you see the JSON** → the browser reaches the backend; the block comes
+     from an extension (ad-block/privacy) or from cache. Open the app in an
+     incognito window (`Ctrl+Shift+N`); if it connects there, it was an
+     extension. A hard reload with `Ctrl+Shift+R` also helps.
+   - **If it doesn't load** → it's a firewall or local network issue; the
+     browser can't reach port 8100.
 
-3. Asegurate de abrir la app en `http://127.0.0.1:5173`. Si el puerto 5173
-   estaba ocupado, Vite salta a 5174/5175 y debes usar ese puerto (el backend ya
-   acepta cualquier puerto de `localhost`/`127.0.0.1` via CORS).
+3. Make sure you open the app at `http://127.0.0.1:5173`. If port 5173 was busy,
+   Vite jumps to 5174/5175 and you must use that port (the backend already
+   accepts any `localhost`/`127.0.0.1` port via CORS).
 
-4. Pulsa el boton de refrescar (icono arriba a la derecha, junto al estado) para
-   reintentar el chequeo de salud sin recargar la pagina.
+4. Click the refresh button (icon at the top right, next to the status) to retry
+   the health check without reloading the page.
 
 ### CLI
 
-El camino recomendado es usar el wizard del template. Te pregunta lo necesario y
-crea una carpeta nueva ya renombrada:
+The recommended path is to use the template wizard. It asks what's needed and
+creates a new, already-renamed folder:
 
 ```bash
 python scripts/scaffold.py
 ```
 
-Tambien puedes usarlo sin preguntas, util para automatizar:
+You can also use it without prompts, useful for automation:
 
 ```bash
 python scripts/scaffold.py --no-input ^
   --name weather-mcp ^
   --target ..\weather-mcp ^
-  --description "Servidor MCP para consultar clima." ^
+  --description "MCP server to query the weather." ^
   --port 8010
 ```
 
-Al terminar imprime los siguientes pasos: crear entorno, instalar dependencias,
-correr tests y registrar el servidor en Codex.
+When it finishes it prints the next steps: create an environment, install
+dependencies, run the tests, and register the server in Codex.
 
-## Que trae
+## What it includes
 
-| Pieza | Para que sirve |
-|-------|----------------|
-| `src/server.py` | Define el servidor FastMCP, registra tools y soporta `stdio`/HTTP |
-| `src/tools/example.py` | Logica pura de tools, testeable sin MCP |
-| `scripts/scaffold.py` | Interfaz guiada para generar un MCP nuevo desde esta plantilla |
-| `tests/test_server_mcp.py` | Tests usando el protocolo MCP real en memoria |
-| `examples/claude_desktop_config.json` | Config base para Claude Desktop |
-| `.env.example` | Variables de entorno del servidor |
+| Piece | What it's for |
+|-------|---------------|
+| `src/server.py` | Defines the FastMCP server, registers tools and supports `stdio`/HTTP |
+| `src/tools/example.py` | Pure tool logic, testable without MCP |
+| `scripts/scaffold.py` | Guided interface to generate a new MCP from this template |
+| `tests/test_server_mcp.py` | Tests using the real MCP protocol in memory |
+| `examples/claude_desktop_config.json` | Base config for Claude Desktop |
+| `.env.example` | Server environment variables |
 
-## Tools incluidas
+## Included tools
 
-| Tool | Que hace |
-|------|----------|
-| `echo` | Devuelve un mensaje; sirve para probar inputs simples |
-| `health_check` | Devuelve nombre, version y estado del servidor |
+| Tool | What it does |
+|------|--------------|
+| `echo` | Returns a message; useful to test simple inputs |
+| `health_check` | Returns the server name, version and status |
 
-## Crear un servidor nuevo manualmente
+## Create a new server manually
 
-Si prefieres hacerlo a mano, copia el repo y cambia el nombre:
+If you prefer to do it by hand, copy the repo and change the name:
 
 ```bash
-cp -r mcp-server-template mi-mcp-server
-cd mi-mcp-server
+cp -r mcp-server-template my-mcp-server
+cd my-mcp-server
 ```
 
-Cambia el nombre visible en `.env`:
+Change the visible name in `.env`:
 
 ```bash
 copy .env.example .env
 ```
 
 ```env
-MCP_SERVER_NAME=mi-mcp-server
+MCP_SERVER_NAME=my-mcp-server
 MCP_SERVER_VERSION=0.1.0
 ```
 
-Reemplaza `src/tools/example.py` por la logica de tu dominio.
+Replace `src/tools/example.py` with your domain logic.
 
-Registra tus tools en `src/server.py` usando:
+Register your tools in `src/server.py` using:
 
 ```python
-@mcp.tool(description="Descripcion corta de la tool.")
-def mi_tool(argumento: str) -> str:
-    return "resultado"
+@mcp.tool(description="Short description of the tool.")
+def my_tool(argument: str) -> str:
+    return "result"
 ```
 
-Actualiza los tests y corre:
+Update the tests and run:
 
 ```bash
 pytest
 ```
 
-## Instalacion
+## Installation
 
 ```bash
 python -m venv .venv
@@ -142,25 +143,25 @@ pip install -r requirements.txt
 copy .env.example .env
 ```
 
-## Probar con MCP Inspector
+## Test with MCP Inspector
 
 ```bash
 mcp dev src/server.py
 ```
 
-Prueba `echo` con:
+Test `echo` with:
 
 ```json
 {
-  "message": "hola MCP",
+  "message": "hello MCP",
   "uppercase": true
 }
 ```
 
 ## Claude Desktop
 
-Usa [examples/claude_desktop_config.json](examples/claude_desktop_config.json) y
-ajusta la ruta absoluta:
+Use [examples/claude_desktop_config.json](examples/claude_desktop_config.json)
+and adjust the absolute path:
 
 ```json
 {
@@ -168,7 +169,7 @@ ajusta la ruta absoluta:
     "template": {
       "command": "python",
       "args": ["-m", "src.server"],
-      "cwd": "C:\\ruta\\a\\mcp-server-template"
+      "cwd": "C:\\path\\to\\mcp-server-template"
     }
   }
 }
@@ -176,23 +177,23 @@ ajusta la ruta absoluta:
 
 ## Codex CLI
 
-Para registrar este servidor en Codex:
+To register this server in Codex:
 
 ```bash
-codex mcp add template -- python C:\ruta\a\mcp-server-template\run_server.py
+codex mcp add template -- python C:\path\to\mcp-server-template\run_server.py
 ```
 
-Luego reinicia Codex y prueba:
+Then restart Codex and try:
 
 ```text
-Usa el MCP template y llama health_check
+Use the template MCP and call health_check
 ```
 
-## Transportes
+## Transports
 
 ```bash
 python -m src.server          # stdio
-python -m src.server --http   # Streamable HTTP en 127.0.0.1:8002
+python -m src.server --http   # Streamable HTTP on 127.0.0.1:8002
 ```
 
 ## Tests
@@ -201,4 +202,4 @@ python -m src.server --http   # Streamable HTTP en 127.0.0.1:8002
 pytest
 ```
 
-Los tests no usan red ni credenciales.
+The tests use no network and no credentials.
